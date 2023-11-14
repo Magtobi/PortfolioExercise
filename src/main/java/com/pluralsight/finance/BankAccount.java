@@ -1,48 +1,45 @@
 package com.pluralsight.finance;
 
-import com.pluralsight.FixedAsset;
+import com.pluralsight.Valuable;
 
-public class BankAccount extends FixedAsset {
-    private String name;
+import java.util.Random;
+
+public class BankAccount implements Valuable {
     private String accountNumber;
     private double balance;
 
     public BankAccount(String name, double balance) {
-        super(name, balance);
-        this.accountNumber = getAccountNumber();
+        super();
+        this.accountNumber = generateAccountNumber();
         this.balance = balance;
     }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getAccountNumber() {
         return accountNumber;
     }
-
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
+    private String generateAccountNumber() {
+        Random random = new Random();
+        return String.format("%04d", random.nextInt(10000));
+    }
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.println("Deposited: $" + amount);
+        }
+    }
+    public double withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            System.out.println("Withdrawn: $" + amount);
+            return amount;
+        } else {
+            System.out.println("Insufficient funds.");
+            return 0;
+        }
     }
 
-    public double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
 
     @Override
     public double getValue() {
-        return balance;
-    }
-
-    public void deposit(int i) {
+        return 0;
     }
 }
